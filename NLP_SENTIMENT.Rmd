@@ -1,0 +1,46 @@
+---
+title: "NLP_DATA_CLEANING"
+author: "Caitlin Volante"
+date: "2025-10-19"
+output: html_document
+---
+
+load packages
+```{r, message = FALSE}
+library(tidyverse)
+library(readxl)
+library(glmertree)
+library(lmerTest)
+```
+
+read in excel file
+```{r}
+df <- read_excel("AI_CODING_SHEET.xlsx") # load in df
+
+df <- df[, -c(11:12, 27:32)] # remove columns related to memory data and story idea units
+
+df <- df[!is.na(df$free_response) & df$free_response != "", ] # remove rows that don't have information 
+
+df$free_response <- gsub("%2C", "", df$free_response) # identify and remove %2C anomaly related to punctuation
+
+write.csv(df, "narrative_free_response_data.csv", row.names = FALSE)
+
+```
+
+read in .csv of data that now has sentiment information in it
+```{r}
+sentiment_df <- read.csv("sentiment_free_response_data.csv")
+```
+
+Run the model for positive scores 
+```{r}
+pos_model <- lmer(NRC_positive ~ story_condition_numeric + (1|id) + (1|group) + (1|story_name), data = sentiment_df)
+summary(pos_model)
+```
+
+Run the model for negative scores 
+```{r}
+neg_model <- lmer(NRC_negative ~ story_condition_numeric + (1|id) + (1|group) + (1|story_name), data = sentiment_df)
+summary(neg_model)
+```
+
