@@ -1,6 +1,8 @@
 # NLP-Sentiment-Analysis-of-Free-Responses
 Notebooks and scripts used to analyze sentiment analysis with and without POS tagging for short narrative stories containing different levels of disfluency
 
+The purpose of these analyses are to to analyze the relationship between speaker impressions and number of filled pauses in the passage.
+
 For access to the deidentified data, please reach out to Caitlin Volante at caitlin.r.volante@vanderbilt.edu
 
 ## Sentiment Analysis without POS Tagging
